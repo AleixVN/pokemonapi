@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: pokemon-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/pokeapi_db
+      - SPRING_DATASOURCE_USERNAME=pokeuser
+      - SPRING_DATASOURCE_PASSWORD=p0k3us3r
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=p0k3us3r
+      - MYSQL_DATABASE=pokeapi_db
+      - MYSQL_USER=pokeuser
+      - MYSQL_PASSWORD=p0k3us3r
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
